@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="auth-container">
+    <h1 class="auth-title">Create an Account</h1>
+
+    <form method="post" class="auth-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="auth-button">Register</button>
+    </form>
+
+    <div class="auth-links">
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+
+    <a href="/" class="back-link">Back to Homepage</a>
+</div>
+
+{% endblock %}

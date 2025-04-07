@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="category-list">
+    <h1>Categories</h1>
+    <ul>
+        {% for category in categories %}
+            <li>
+                <a href="{% url 'category detail' category.slug %}">
+                    {{ category.name }}
+                </a>
+            </li>
+        {% empty %}
+            <p>No categories available.</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+
+{#{% extends "base.html" %}#}
+{#{% block content %}#}
+{#<div class="category-list">#}
+{#    <h1>Categories</h1>#}
+{#    <ul>#}
+{#        {% for category in categories %}#}
+{#        <li class="category-item">#}
+{#            <img src="{{ category.image.url }}" alt="{{ category.name }}" class="category-image">#}
+{#            <a href="{% url 'category detail' category.slug %}" class="category-link">#}
+{#                {{ category.name }}#}
+{#            </a>#}
+{#        </li>#}
+{#        {% empty %}#}
+{#        <p>No categories available.</p>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{#</div>#}
+{#{% endblock %}#}

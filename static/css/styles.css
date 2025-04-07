@@ -1,0 +1,97 @@
+/* styles.css */
+
+@import url('base.css');
+@import url('forms.css');
+@import url('blog.css');
+@import url('user.css');
+
+/* Навигационни стилове */
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Стилове за търсачката */
+.search-box {
+    position: relative;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    width: 200px;
+    font-size: 14px;
+    transition: width 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input:focus {
+    width: 300px;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0,123,255,0.3);
+}
+
+.search-button {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+.search-button:hover {
+    color: #007bff;
+}
+
+/* Responsive дизайн */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .nav-links {
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .search-box {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .search-form {
+        width: 100%;
+    }
+
+    .search-input {
+        width: 100%;
+    }
+
+    .search-input:focus {
+        width: 100%;
+    }
+}

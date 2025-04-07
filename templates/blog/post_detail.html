@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+
+<article class="post-detail">
+    {% if user.is_authenticated and user.is_staff %}
+        <a href="{% url 'post edit' post.slug %}" class="edit-button">✏️ Edit Post</a>
+    {% endif %}
+    <header class="post-header">
+        <h1 class="post-title">{{ post.title }}</h1>
+        <p class="post-meta">
+                        By <a href="{% url 'author posts' post.author_user.username|default:post.author|default:'Anonymous' %}">{{ post.author_user.username|default:post.author|default:'Anonymous' }}</a> | Published on {{ post.published_at|date:"F d, Y" }}
+                    </p>
+{#        {% if post.featured_image %}#}
+            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image">
+{#        {% endif %}#}
+    </header>
+
+    <hr class="post-divider">
+
+    <div class="post-content">
+        {{ post.content|safe }}
+    </div>
+
+    <a href="/" class="back-link">← Back to Homepage</a>
+
+    <section class="comments-section">
+        <h2 class="comments-title">Comments</h2>
+        {% for comment in comments %}
+            <div class="comment">
+                <div class="comment-info">
+                    <span class="comment-author">{{ comment.author_user.username|default:comment.name|default:comment.author_user.email|default:"Anonymous" }}</span>
+                    <span class="comment-date">{{ comment.created_at|date:"F d, Y" }}</span>
+                </div>
+                <p class="comment-body">{{ comment.body }}</p>
+            </div>
+        {% empty %}
+            <p class="no-comments">No comments yet. Be the first to comment!</p>
+        {% endfor %}
+    </section>
+
+    <section class="comment-form-section">
+        {% if user.is_authenticated %}
+            <h2 class="comment-form-title">Leave a Comment</h2>
+            {% if new_comment %}
+                <p class="comment-success">Your comment has been added successfully!</p>
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <button type="submit">Submit Comment</button>
+            </form>
+        {% else %}
+            <div class="login-prompt">
+                <p><a href="{% url 'login' %}">Login</a> to leave a comment.</p>
+            </div>
+        {% endif %}
+    </section>
+</article>
+
+{% endblock %}

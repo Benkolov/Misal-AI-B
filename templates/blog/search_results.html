@@ -1,0 +1,89 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<div class="search-results">
+    <div class="search-header">
+        <h1>Search Results</h1>
+
+        <!-- Search form -->
+        <form method="GET" action="{% url 'search posts' %}" class="search-form">
+            <input type="text"
+                   name="q"
+                   value="{{ query }}"
+                   placeholder="Search posts..."
+                   class="search-input">
+            <button type="submit" class="search-button">Search</button>
+        </form>
+
+        {% if query %}
+            <p class="search-summary">
+                Found {{ posts|length }} result{{ posts|length|pluralize }} for "{{ query }}"
+            </p>
+        {% endif %}
+    </div>
+
+    {% if posts %}
+        <div class="category-post-list">
+            {% for post in posts %}
+                <article class="category-post-card">
+                    {% if post.featured_image %}
+                    <div class="category-post-image">
+                        <img src="{{ post.featured_image.url }}"
+                             alt="{{ post.title }}"
+                             class="category-post-thumbnail">
+                    </div>
+                    {% endif %}
+
+                    <div class="category-post-content">
+                        <div class="post-header">
+                            {% if post.category %}
+                                <span class="post-category">
+                                    <a href="{% url 'category detail' post.category.slug %}">
+                                        {{ post.category.name }}
+                                    </a>
+                                </span>
+                            {% endif %}
+                            <h2 class="post-title">
+                                <a href="{% url 'post detail' post.slug %}">{{ post.title }}</a>
+                            </h2>
+                        </div>
+
+                        <p class="post-meta">
+                            By <a href="{% url 'author posts' post.author %}">{{ post.author }}</a>
+                            | Published on {{ post.published_at|date:"F d, Y" }}
+                        </p>
+
+                        <div class="post-excerpt">
+                            {{ post.content|truncatewords:30 }}
+                        </div>
+
+                        <a href="{% url 'post detail' post.slug %}" class="read-more">
+                            Read more
+                        </a>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        {% if query %}
+            <div class="no-results">
+                <p>No posts found matching your search.</p>
+                <div class="search-suggestions">
+                    <h3>Suggestions:</h3>
+                    <ul>
+                        <li>Check your spelling</li>
+                        <li>Try more general keywords</li>
+                        <li>Try different keywords</li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <div class="search-navigation">
+        <a href="{% url 'post list' %}" class="back-link">← Back to Homepage</a>
+    </div>
+</div>
+
+{% endblock %}

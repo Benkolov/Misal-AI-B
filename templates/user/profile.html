@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="post-detail">
+            <div class="post-header">
+                <h2 class="post-title">Профил</h2>
+                <div class="post-divider"></div>
+            </div>
+
+            <div class="profile-details">
+                <div class="profile-content">
+                    <!-- Първо профилната снимка вляво и информацията вдясно -->
+                    <div class="profile-flex-container">
+                        <!-- Профилна снимка вляво -->
+                        <div class="profile-left">
+                            {% if object.profile_picture %}
+                            <div class="profile-picture">
+                                <img src="{{ object.profile_picture.url }}" alt="Профилна снимка" class="profile-image">
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Профилна информация вдясно -->
+                        <div class="profile-right">
+                            <div class="profile-info">
+                                <p><strong>Потребителско име:</strong> {{ object.username|default:"-" }}</p>
+                                <p><strong>Email:</strong> {{ object.email }}</p>
+                                <p><strong>Име:</strong> {{ object.first_name|default:"-" }}</p>
+                                <p><strong>Фамилия:</strong> {{ object.last_name|default:"-" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Действия отдолу -->
+{#                <div class="form-actions">#}
+{#                    <a href="/" class="back-link">Начална страница</a>#}
+
+                    <div class="profile-actions">
+                        <a href="{% url 'profile_edit' %}" class="form-submit-button">Редактиране</a>
+{#                        <a href="{% url 'logout' %}" class="auth-button">Изход</a>#}
+                        <a href="{% url 'profile_delete' %}" class="delete-button">Изтриване на профил</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="auth-container">
+    <h1 class="auth-title">Login to Your Account</h1>
+
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="auth-button">Login</button>
+    </form>
+
+    <div class="auth-links">
+        <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+        <!-- Добавете връзка за забравена парола, ако имате такава функционалност -->
+{#        <!-- <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p> -->#}
+    </div>
+
+    <a href="/" class="back-link">Back to Homepage</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block content %}
+
+{#<div class="post-list">#}
+{#    {% for post in posts %}#}
+{#        {% if forloop.first %}#}
+{#            <!-- Първа (featured) публикация с различно оформление -->#}
+{#            <article class="post-featured">#}
+{#                {% if post.featured_image %}#}
+{#                    <div class="post-image-container">#}
+{#                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image">#}
+{#                    </div>#}
+{#                {% endif %}#}
+{#                <div class="post-card-content">#}
+{##}
+{#                    <div class="post-header">#}
+{#                        {% if post.category %}#}
+{#                            <span class="post-category">#}
+{#                                <a href="{% url 'category detail' post.category.slug %}">{{ post.category.name }}</a>#}
+{#                            </span>#}
+{#                        {% endif %}#}
+{#                        <h2 class="post-title"><a href="{{ post.slug }}/">{{ post.title }}</a></h2>#}
+{#                    </div>#}
+{##}
+{#                    <p class="post-meta">#}
+{#                        By <a href="{% url 'author posts' post.author %}">{{ post.author }}</a> | Published on {{ post.published_at|date:"F d, Y" }}#}
+{#                    </p>#}
+{##}
+{#                    <div class="post-excerpt">#}
+{#                        {{ post.content|linebreaks|truncatewords:50 }}#}
+{#                    </div>#}
+{#                    <a href="{{ post.slug }}/" class="read-more">Read more</a>#}
+{#                </div>#}
+{#            </article>#}
+{##}
+{#            {% if posts|length > 1 %}#}
+{#                <div class="post-grid">#}
+{#            {% endif %}#}
+{#        {% else %}#}
+{#            <!-- Останалите публикации (по две на ред) -->#}
+{#            <article class="post-card">#}
+{#                {% if post.featured_image %}#}
+{#                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image">#}
+{#                {% endif %}#}
+{#                <div class="post-card-content">#}
+{##}
+{#                    <div class="post-header">#}
+{#                        {% if post.category %}#}
+{#                            <span class="post-category">#}
+{#                                <a href="{% url 'category detail' post.category.slug %}">{{ post.category.name }}</a>#}
+{#                            </span>#}
+{#                        {% endif %}#}
+{#                        <h2 class="post-title"><a href="{{ post.slug }}/">{{ post.title }}</a></h2>#}
+{#                    </div>#}
+{##}
+{#                    <p class="post-meta">#}
+{#                        By <a href="{% url 'author posts' post.author %}">{{ post.author }}</a> | Published on {{ post.published_at|date:"F d, Y" }}#}
+{#                    </p>#}
+{#                    <div class="post-excerpt">#}
+{#                        {{ post.content|truncatewords:20 }}#}
+{#                    </div>#}
+{#                    <a href="{{ post.slug }}/" class="read-more">Read more</a>#}
+{#                </div>#}
+{#            </article>#}
+{#        {% endif %}#}
+{#    {% empty %}#}
+{#        <div class="no-posts">#}
+{#            <p>No posts available at the moment. Check back soon!</p>#}
+{#        </div>#}
+{#    {% endfor %}#}
+{##}
+{#    {% if posts|length > 1 %}#}
+{#        </div>#}
+{#    {% endif %}#}
+{#</div>#}
+
+    <section class="post-list">
+    {% for post in posts %}
+        {% if forloop.first %}
+            <article class="post-featured">
+                {% if post.featured_image %}
+                    <div class="post-image-container">
+                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image">
+                    </div>
+                {% endif %}
+                <div class="post-card-content">
+                    <header class="post-header">
+                        {% if post.category %}
+                            <span class="post-category">
+                                <a href="{% url 'category detail' post.category.slug %}">{{ post.category.name }}</a>
+                            </span>
+                        {% endif %}
+                        <h2 class="post-title"><a href="{{ post.slug }}/">{{ post.title }}</a></h2>
+                    </header>
+                    <p class="post-meta">By <a href="{% url 'author posts' post.author_user.username|default:post.author|default:'Anonymous' %}">{{ post.author_user.username|default:post.author|default:'Anonymous' }}</a> | Published on {{ post.published_at|date:"F d, Y" }}</p>
+                    <div class="post-excerpt">{{ post.excerpt|default:post.content|linebreaks|truncatewords:50 }}</div>
+                    <a href="{{ post.slug }}/" class="read-more">Read more</a>
+                </div>
+            </article>
+            {% if posts|length > 1 %}
+                <div class="post-grid">
+            {% endif %}
+        {% else %}
+            <article class="post-card">
+                {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image">
+                {% endif %}
+                <div class="post-card-content">
+                    <header class="post-header">
+                        {% if post.category %}
+                            <span class="post-category">
+                                <a href="{% url 'category detail' post.category.slug %}">{{ post.category.name }}</a>
+                            </span>
+                        {% endif %}
+                        <h2 class="post-title"><a href="{{ post.slug }}/">{{ post.title }}</a></h2>
+                    </header>
+                    <p class="post-meta">By <a href="{% url 'author posts' post.author_user.username|default:post.author|default:'Anonymous' %}">{{ post.author_user.username|default:post.author|default:'Anonymous' }}</a> | Published on {{ post.published_at|date:"F d, Y" }}</p>
+                    <div class="post-excerpt">{{ post.excerpt|default:post.content|truncatewords:20 }}</div>
+                    <a href="{{ post.slug }}/" class="read-more">Read more</a>
+                </div>
+            </article>
+        {% endif %}
+    {% empty %}
+        <div class="no-posts">
+            <p>No posts available at the moment. Check back soon!</p>
+        </div>
+    {% endfor %}
+    {% if posts|length > 1 %}
+        </div>
+    {% endif %}
+</section>
+
+
+{% endblock %}

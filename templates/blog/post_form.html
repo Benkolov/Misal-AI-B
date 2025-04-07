@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="post-form-container">
+    <h1>{% if post %}Edit Post{% else %}Create a New Post{% endif %}</h1>
+
+    {% if form.errors %}
+        <div class="form-errors">
+            <p><strong>Please correct the following errors:</strong></p>
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="post-form">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="form-field">
+                {% if field.name == "tags" %}
+                    <label for="{{ field.id_for_label }}">Tags:</label>
+                    <div style="display: flex; align-items: center;">
+                        {{ field }}
+                        <a href="{% url 'tag create' %}" id="add-tag-btn" style="margin-left: 10px; font-size: 24px; text-decoration: none;">➕</a>
+                    </div>
+                {% elif field.name == "category" %}
+                    <label for="{{ field.id_for_label }}">Category:</label>
+                    <div style="display: flex; align-items: center;">
+                        {{ field }}
+                        <a href="{% url 'category create' %}" id="add-category-btn" style="margin-left: 10px; font-size: 24px; text-decoration: none;">➕</a>
+                    </div>
+                {% else %}
+                    {{ field.label_tag }}
+                    {% if field.field.widget.input_type == 'file' %}
+                        <div class="file-upload-wrapper">
+                            {{ field }}
+                            {% if field.help_text %}
+                                <span class="form-help-text">{{ field.help_text }}</span>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        {{ field }}
+                        {% if field.help_text %}
+                            <span class="form-help-text">{{ field.help_text }}</span>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="form-actions">
+            <a href="/" class="back-link">← Back to Homepage</a>
+            <button type="submit" class="form-submit-button">Publish Post</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
