@@ -53,3 +53,17 @@ class PostSerializer(serializers.ModelSerializer):
             'views_count', 'category', 'category_id', 'tags', 'tag_ids', 'comments'
         ]
         read_only_fields = ['slug', 'created_at', 'published_at', 'views_count']
+
+    def create(self, validated_data):
+        tags = validated_data.pop('tags', [])
+        post = super().create(validated_data)
+        if tags:
+            post.tags.set(tags)
+        return post
+
+    def update(self, instance, validated_data):
+        tags = validated_data.pop('tags', None)
+        post = super().update(instance, validated_data)
+        if tags is not None:
+            post.tags.set(tags)
+        return post
